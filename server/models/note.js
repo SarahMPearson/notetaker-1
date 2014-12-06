@@ -1,3 +1,4 @@
+/* jshint camelcase:false */
 'use strict';
 
 var pg = require('../postgres/manager');
@@ -7,17 +8,15 @@ function Note(){
 
 Note.create = function(user, obj, cb){
   pg.query('select add_note($1, $2, $3, $4)', [user.id, obj.title, obj.body, obj.tags], function(err, results){
-    console.log(err, results);
-    cb();
+    cb(err, results && results.rows ? results.rows[0].add_note : null);
   });
 };
 
-Note.list = function(userID, cb){
-  pg.query('select notes.title, notes.created_at from notes inner join users on notes.user_id=users.id where notes.user_id=' + userID + ';', [], function(err, results){
-    console.log(err, results);
-    cb(err, results.rows);
+Note.query = function(user, query, cb){
+  pg.query('select * from query_notes($1, $2, $3)', [user.id, query.limit, query.offset], function(err, results){
+    console.log('ERROR & RESULTS', err, results);
+    cb(err, results && results.rows ? results.rows : null);
   });
-
 };
 
 module.exports = Note;
