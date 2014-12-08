@@ -12,26 +12,8 @@
         $scope.notes = response.data.notes;
       });
     }
-
     getRecent();
 
-    Note.findOne($state.params.id).then(function(response){
-      debugger;
-      $scope.note = response.data;
-    });
-
-    // if($scope.mode === 'viewNote'){
-    //   var noteId = $stateParams.noteId;
-    //   console.log('NOTEID is', noteId);
-    //   Note.findOne(noteId).then(function(response){
-    //     console.log('RESPONSE!!!!!!!!!', response);
-    //     debugger;
-    //     $scope.note = response.data;
-    //   }, function(response){
-    //     //reject promise
-    //     console.log('promise rejected', response);
-    //   });
-    // }
 
     $scope.create = function(note){
       Note.create(note).then(function(response){

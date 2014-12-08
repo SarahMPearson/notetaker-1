@@ -14,7 +14,6 @@ Note.create = function(user, obj, cb){
 
 Note.query = function(user, query, cb){
   pg.query('SELECT * FROM query_notes($1, $2, $3)', [user.id, query.limit, query.offset], function(err, results){
-    console.log('ERROR & RESULTS', err, results);
     cb(err, results && results.rows ? results.rows : null);
   });
 };
