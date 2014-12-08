@@ -12,6 +12,14 @@
       return $http.get('/notes?limit=10&offset=0');
     }
 
-    return {create:create, recent:recent};
+    function findOne(noteId){
+      return $http.get('/notes/' + noteId);
+    }
+
+    function deleteNote(id){
+      return $http.delete('/notes/'+ id);
+    }
+
+    return {create:create, recent:recent, findOne:findOne, deleteNote:deleteNote};
   }]);
 })();

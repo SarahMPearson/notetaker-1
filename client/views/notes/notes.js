@@ -15,28 +15,34 @@
 
     getRecent();
 
-    // if($scope.mode !== 'viewNote'){
-    //   Note.getRecent().then(function(response){
-    //     $scope.notes = response.data;
+    Note.findOne($state.params.id).then(function(response){
+      debugger;
+      $scope.note = response.data;
+    });
+
+    // if($scope.mode === 'viewNote'){
+    //   var noteId = $stateParams.noteId;
+    //   console.log('NOTEID is', noteId);
+    //   Note.findOne(noteId).then(function(response){
+    //     console.log('RESPONSE!!!!!!!!!', response);
+    //     debugger;
+    //     $scope.note = response.data;
+    //   }, function(response){
+    //     //reject promise
+    //     console.log('promise rejected', response);
     //   });
     // }
-
-    if($scope.mode === 'viewNote'){
-      var noteId = $stateParams.noteId;
-      console.log('NOTEID is', noteId);
-      Note.findOne(noteId).then(function(response){
-        debugger;
-        $scope.note = response.data[0];
-      }, function(response){
-        //reject promise
-        console.log('promise rejected', response);
-      });
-    }
 
     $scope.create = function(note){
       Note.create(note).then(function(response){
         $scope.note = {};
         getRecent();
+      });
+    };
+
+    $scope.deleteNote = function(id, index){
+      Note.deleteNote(id).then(function(response){
+        $scope.notes.splice(index, 1);
       });
     };
   }]);
