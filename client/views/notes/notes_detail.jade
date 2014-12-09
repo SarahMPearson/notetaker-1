@@ -1,0 +1,15 @@
+.panel
+  h1 {{note.title}}
+  h4 Date: {{moment(note.updated_at).format('MMMM Do YYYY @ h:mm:ss a')}}
+  .panel.callout.radius
+    h4 Body
+    blockquote {{note.body}}
+    h6 Photos:
+      ul.small-block-grid-3
+        li(ng-repeat='url in note.urls')
+          img.th(ng-src='{{url}}')
+
+  h6 Tags:
+  #tags
+    .tag(ng-repeat='tag in note.tags')
+      a(ui-sref='notes.list({tag:tag})') {{tag}}
