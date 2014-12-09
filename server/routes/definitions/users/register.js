@@ -16,6 +16,7 @@ module.exports = {
   auth: false,
   handler: function(request, reply){
     User.register(request.payload, function(err){
+      console.log('ERROR in register.js', err);
       reply().code(err ? 400 : 200);
     });
   }

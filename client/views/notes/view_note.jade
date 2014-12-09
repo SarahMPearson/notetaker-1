@@ -1,9 +1,0 @@
-.panel 
-  h2 {{note.title}}
-  h4 Created: {{note.updated_at | date: medium}}
-  .panel.callout.radius
-    h5 {{note.body}}
-  .panel
-    h6 Tags:
-      span.tag(ng-repeat='name in note.tag_names')
-        a(hreft='/#notes?tag={{name}}') {{name}}

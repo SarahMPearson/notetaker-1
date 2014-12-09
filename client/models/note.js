@@ -1,25 +1,48 @@
+/* jshint loopfunc:true, camelcase:false */
+
 (function(){
   'use strict';
 
   angular.module('hapi-auth')
-  .factory('Note', ['$http', function($http){
+  .factory('Note', ['$rootScope', '$http', '$upload', function($rootScope, $http, $upload){
 
     function create(note){
       return $http.post('/notes', note);
     }
 
-    function recent(){
-      return $http.get('/notes?limit=10&offset=0');
+    function query(tag, page){
+      return $http.get('/notes?limit=5&offset=' + 5 * page + '&tag=' + tag);
     }
 
-    function findOne(noteId){
+    function show(noteId){
       return $http.get('/notes/' + noteId);
     }
 
-    function deleteNote(id){
-      return $http.delete('/notes/'+ id);
+    function count(){
+      return $http.get('/notes/count');
     }
 
-    return {create:create, recent:recent, findOne:findOne, deleteNote:deleteNote};
+    function nuke(note){
+      return $http.delete('/notes/' + note.note_id);
+    }
+
+    function upload(noteId, files){
+      var count = 0;
+      for (var i = 0; i < files.length; i++){
+        var file = files[i];
+        $upload.upload({
+          url: '/notes/' + noteId + '/upload',
+          method: 'POST',
+          file: file
+        }).success(function(data, status, headers, config){
+          count++;
+          $rootScope.$broadcast('upload', count);
+        }).error(function(){
+          console.log('An error has occurred during a file upload');
+        });
+      }
+    }
+
+    return {create:create, upload:upload, show:show, query:query, count:count, nuke:nuke};
   }]);
 })();
