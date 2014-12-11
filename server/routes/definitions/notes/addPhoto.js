@@ -1,10 +1,10 @@
 'use strict';
 
 var Joi  = require('joi'),
-    Note = require('../../../models/note');
+Note = require('../../../models/note');
 
 module.exports = {
-  description: 'add a Photo to the note from the camera',
+  description: 'Upload a Mobile Photo',
   tags:['notes'],
   validate: {
     params: {
